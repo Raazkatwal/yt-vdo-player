@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Youtube video player</title>
+</head>
+<body>
+    <div class="video-container paused">
+        <div class="video-controls-container">
+            <div class="timeline-container"></div>
+            <div class="controls">
+                <button class="play-pause-btn">
+                    <svg class="play-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                    </svg>
+                    <svg class="pause-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                      </svg>
+                    </button>
+                </div>
+            </div>
+            <video src="vdo-sample.mp4" autoplay></video>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>
