@@ -8,6 +8,20 @@ body{
     max-width: 1000px;
     justify-content: center;
     margin-inline: auto;
+    background-color: black;
+}
+.video-container.theater,
+.video-container.full-screen{
+    max-width: initial;
+    width: 100%;
+}
+.video-container.theater{
+    max-height: 90vh;
+    overflow: hidden;
+}
+.video-container.full-screen{
+    max-height: 100vh;
+    overflow: hidden;
 }
 video{
     width: 100%;
@@ -62,5 +76,17 @@ video{
     display: none;
 }
 .video-container:not(.paused) .play-icon{
+    display: none;   
+}
+.video-container.theater .tall{
+    display: none;
+}
+.video-container:not(.theater) .wide{
+    display: none;   
+}
+.video-container.full-screen .open{
+    display: none;
+}
+.video-container:not(.full-screen) .close{
     display: none;   
 }

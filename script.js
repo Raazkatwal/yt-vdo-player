@@ -1,24 +1,72 @@
 const playpausebtn = document.querySelector(".play-pause-btn");
+const theaterbtn = document.querySelector(".theater-btn");
+const fullscrnbtn = document.querySelector(".full-screen-btn");
+const miniplayerbtn = document.querySelector(".mini-player-btn");
 const videocontainer = document.querySelector(".video-container");
 const video = document.querySelector("video");
 
 playpausebtn.addEventListener('click', toggleplay);
 video.addEventListener('click', toggleplay)
 document.addEventListener("keydown", e => {
+    const tagname = document.activeElement.tagName.toLowerCase();
+    if (tagname === "input") {
+        return
+    }
     switch (e.key.toLowerCase()) {
         case " ":
+            if (tagname === "button") {
+                return
+            }
         case "k":
             toggleplay();
             break;
+        case "f":
+            fullscrnmode();
+            break;
+        case "t":
+            toggletheater();
+            break;
+        case "i":
+            miniplayer();
+            break;
     }
 })
+theaterbtn.addEventListener("click", toggletheater);
+fullscrnbtn.addEventListener("click", fullscrnmode);
+miniplayerbtn.addEventListener("click", miniplayer);
 
 function toggleplay() {
     video.paused ? video.play() : video.pause();
 }
+function toggletheater() {
+    videocontainer.classList.toggle("theater");
+}
+function fullscrnmode() {
+    if (document.fullscreenElement==null) {
+        videocontainer.requestFullscreen()
+    }else{
+        document.exitFullscreen();
+    }
+}
+function miniplayer() {
+    if (videocontainer.classList.contains("mini-player")) {
+        document.exitPictureInPicture();
+    }else{
+        video.requestPictureInPicture();
+    }
+}
+document.addEventListener("fullscreenchange", ()=>{
+    videocontainer.classList.toggle("full-screen", document.fullscreenElement)
+})
 video.addEventListener('play', ()=>{
     videocontainer.classList.remove("paused");
 })
 video.addEventListener('pause', ()=>{
     videocontainer.classList.add("paused");
+})
+video.addEventListener("enterpictureinpicture", ()=>{
+    videocontainer.classList.add("mini-player")
+})
+video.addEventListener("leavepictureinpicture", ()=>{
+    videocontainer.classList.remove("mini-player")
 })
