@@ -15,13 +15,11 @@ body{
     max-width: initial;
     width: 100%;
 }
-.video-container.theater{
-    max-height: 90vh;
-    overflow: hidden;
+.video-container.theater video{
+    max-height: 88vh;
 }
 .video-container.full-screen{
     max-height: 100vh;
-    overflow: hidden;
 }
 video{
     width: 100%;
@@ -120,4 +118,13 @@ video{
 .volume-slider:focus-within{
     width: 5rem;
     transform: scaleX(1);
+}
+.duration-container{
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    flex-grow: 1;
+}
+.video-controls-container .controls button.wide-btn {
+    width: 50px;
 }

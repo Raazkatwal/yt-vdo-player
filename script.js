@@ -3,6 +3,9 @@ const theaterbtn = document.querySelector(".theater-btn");
 const fullscrnbtn = document.querySelector(".full-screen-btn");
 const miniplayerbtn = document.querySelector(".mini-player-btn");
 const mutebtn = document.querySelector(".mute-btn");
+const speedbtn = document.querySelector(".speed-btn");
+const currenttime = document.querySelector(".current-time");
+const totaltime = document.querySelector(".total-time");
 const volumeslider = document.querySelector(".volume-slider");
 const videocontainer = document.querySelector(".video-container");
 const video = document.querySelector("video");
@@ -34,8 +37,52 @@ document.addEventListener("keydown", e => {
         case "m":
             togglemute();
             break;
+        case "arrowleft":
+        case "j":
+            skip(-5);
+            break;
+        case "arrowright":
+        case "l":
+            skip(+5);
+            break;
     }
 })
+
+speedbtn.addEventListener("click", changeplaybackspeed)
+
+function changeplaybackspeed() {
+    let newplaybackrate = video.playbackRate + .25
+    if (newplaybackrate > 2) newplaybackrate = .25
+    video.playbackRate = newplaybackrate
+    speedbtn.textContent = `${newplaybackrate}x`
+}
+
+video.addEventListener("loadeddata", () => {
+totaltime.textContent = formatduration(video.duration)
+})
+
+video.addEventListener("timeupdate", () => {
+    currenttime.textContent = formatduration(video.currentTime)
+})
+
+const leadingzeroformatter = new Intl.NumberFormat(undefined,{
+    minimumIntegerDigits:2,
+})
+
+function formatduration(time) {
+    const seconds = Math.floor(time % 60)
+    const minutes = Math.floor(time /60) % 60
+    const hours = Math.floor(time/3600)
+    if (hours === 0) {
+        return `${minutes}:${leadingzeroformatter.format(seconds)}`
+    } else {
+        return `${hours}:${leadingzeroformatter.format(minutes)}:${leadingzeroformatter.format(seconds)}`
+    }
+}
+
+function skip(duration) {
+    video.currentTime += duration
+}
 
 mutebtn.addEventListener("click", togglemute);
 volumeslider.addEventListener("input", e => {
