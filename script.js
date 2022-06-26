@@ -2,6 +2,8 @@ const playpausebtn = document.querySelector(".play-pause-btn");
 const theaterbtn = document.querySelector(".theater-btn");
 const fullscrnbtn = document.querySelector(".full-screen-btn");
 const miniplayerbtn = document.querySelector(".mini-player-btn");
+const mutebtn = document.querySelector(".mute-btn");
+const volumeslider = document.querySelector(".volume-slider");
 const videocontainer = document.querySelector(".video-container");
 const video = document.querySelector("video");
 
@@ -29,8 +31,36 @@ document.addEventListener("keydown", e => {
         case "i":
             miniplayer();
             break;
+        case "m":
+            togglemute();
+            break;
     }
 })
+
+mutebtn.addEventListener("click", togglemute);
+volumeslider.addEventListener("input", e => {
+    video.volume = e.target.value
+    video.muted = e.target.value === 0
+})
+
+function togglemute() {
+    video.muted = !video.muted
+}
+
+video.addEventListener("volumechange", () => {
+    volumeslider.value = video.volume
+    let volumelevel
+    if (video.muted || video.volume === 0) {
+        volumeslider.value = 0
+        volumelevel = "muted"
+    } else if (video.volume >= 0.5){
+        volumelevel = "high"
+    } else {
+        volumelevel = "low"
+    }
+    videocontainer.dataset.volumeLevel = volumelevel
+})
+
 theaterbtn.addEventListener("click", toggletheater);
 fullscrnbtn.addEventListener("click", fullscrnmode);
 miniplayerbtn.addEventListener("click", miniplayer);

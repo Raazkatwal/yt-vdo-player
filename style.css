@@ -90,3 +90,34 @@ video{
 .video-container:not(.full-screen) .close{
     display: none;   
 }
+.volume-high-icon,
+.volume-low-icon,
+.volume-muted-icon{
+    display: none
+}
+.video-container[data-volume-level="high"] .volume-high-icon{
+    display: block;
+}
+.video-container[data-volume-level="low"] .volume-low-icon{
+    display: block;
+}
+.video-container[data-volume-level="muted"] .volume-muted-icon{
+    display: block;
+}
+.volume-container{
+    display: flex;
+    align-items: center;
+}
+.volume-slider{
+    width: 0;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+    accent-color: white;
+    height: 5px;
+}
+.volume-container:hover .volume-slider,
+.volume-slider:focus-within{
+    width: 5rem;
+    transform: scaleX(1);
+}
