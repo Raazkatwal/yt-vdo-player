@@ -6,8 +6,11 @@ const mutebtn = document.querySelector(".mute-btn");
 const speedbtn = document.querySelector(".speed-btn");
 const currenttime = document.querySelector(".current-time");
 const totaltime = document.querySelector(".total-time");
+const previewimg = document.querySelector(".preview-img");
+const thumbanilimg = document.querySelector(".thumbnail-img");
 const volumeslider = document.querySelector(".volume-slider");
 const videocontainer = document.querySelector(".video-container");
+const timelinecontainer = document.querySelector(".timeline-container");
 const video = document.querySelector("video");
 
 playpausebtn.addEventListener('click', toggleplay);
@@ -48,6 +51,47 @@ document.addEventListener("keydown", e => {
     }
 })
 
+timelinecontainer.addEventListener("mousemove", handleTimeLineUpdate)
+timelinecontainer.addEventListener("mousedown", togglescrubbing)
+document.addEventListener("mouseup", e => {
+    if (isScrubbing) {
+        togglescrubbing(e)
+    }
+})
+document.addEventListener("mousemoce", e => {
+    if (isScrubbing) {
+        handleTimeLineUpdate(e)
+    }
+})
+let isScrubbing = false
+let wasPaused
+function togglescrubbing(e) {
+    const rect = timelinecontainer.getBoundingClientRect()
+    const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
+    isScrubbing = (e.buttons & 1) === 1
+    videocontainer.classList.toggle("scrubbing", isScrubbing)
+    if (isScrubbing) {
+        wasPaused = video.paused
+        video.pause()
+    } else {
+        video.currentTime = percent * video.duration
+        if (!wasPaused) video.play()
+    }
+}
+function handleTimeLineUpdate(e) {
+    const rect = timelinecontainer.getBoundingClientRect()
+    const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
+    const previewimgnumber = Math.max(1, Math.floor((percent * video.duration) / 10))
+    const previewimgsrc = `previewimgs/preview${previewimgnumber}.jpg`
+    previewimg.src = previewimgsrc
+    timelinecontainer.style.setProperty("--preview-position", percent)
+    if (isScrubbing) {
+        e.preventDefault()
+        thumbanilimg.src = previewimgsrc
+        timelinecontainer.style.setProperty("--progress-position", percent)
+    }
+}
+
 speedbtn.addEventListener("click", changeplaybackspeed)
 
 function changeplaybackspeed() {
@@ -63,8 +107,9 @@ totaltime.textContent = formatduration(video.duration)
 
 video.addEventListener("timeupdate", () => {
     currenttime.textContent = formatduration(video.currentTime)
+    const percent = video.currentTime / video.duration
+    timelinecontainer.style.setProperty("--progress-position", percent)
 })
-
 const leadingzeroformatter = new Intl.NumberFormat(undefined,{
     minimumIntegerDigits:2,
 })

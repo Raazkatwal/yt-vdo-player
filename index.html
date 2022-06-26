@@ -9,8 +9,14 @@
 </head>
 <body>
     <div class="video-container paused" data-volume-level="high">
+        <img class="thumbnail-img">
         <div class="video-controls-container">
-            <div class="timeline-container"></div>
+            <div class="timeline-container">
+                <div class="timeline">
+                    <img class="preview-img">
+                    <div class="thumb-indicator"></div>
+                </div>
+            </div>
             <div class="controls">
                 <button class="play-pause-btn" title="Play/Pause (k)">
                     <svg class="play-icon" viewBox="0 0 24 24">
@@ -65,8 +71,7 @@
                 </button>
             </div>
         </div>
-        <!-- <video src="samplevideo.mp4"></video> -->
-        <video src="vdo-sample.mp4"></video>
+        <video src="samplevideo.mp4"></video>
     </div>
     <script src="script.js"></script>
 </body>
