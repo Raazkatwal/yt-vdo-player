@@ -58,7 +58,7 @@ document.addEventListener("mouseup", e => {
         togglescrubbing(e)
     }
 })
-document.addEventListener("mousemoce", e => {
+document.addEventListener("mousemove", e => {
     if (isScrubbing) {
         handleTimeLineUpdate(e)
     }
